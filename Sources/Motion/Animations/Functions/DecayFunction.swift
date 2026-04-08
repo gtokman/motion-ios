@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import RealModule
 import simd
 
 /// The standard decay constant for `UIScrollView`.

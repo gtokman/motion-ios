@@ -7,7 +7,6 @@
 
 import CoreGraphics
 import Foundation
-import RealModule
 import simd
 
 // MARK: - FloatingPointInitializable
@@ -86,11 +85,9 @@ public extension EquatableEnough where Self: FloatingPoint & FloatingPointInitia
     /**
      Declares whether or not something else is equal to `self` within a given tolerance.
      (e.g. a floating point value that is equal to another floating point value within a given epsilon)
-
-     Bridges to Swift Numerics' `isApproximatelyEqual` (https://github.com/schwa/ApproximateEquality/blob/main/Sources/ApproximateEquality/ApproximateEquality.swift).
      */
     @inlinable func isApproximatelyEqual(to other: Self, epsilon: Self = .epsilon) -> Bool {
-        return isApproximatelyEqual(to: other, absoluteTolerance: epsilon, relativeTolerance: .zero)
+        return abs(self - other) <= epsilon
     }
 
 }

@@ -22,7 +22,6 @@ let package = Package(
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
-        .package(url: "https://github.com/apple/swift-numerics", from: "1.0.0"),
         .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.0.0"),
     ],
     targets: [
@@ -30,9 +29,7 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "Motion",
-            dependencies: [
-                .product(name: "RealModule", package: "swift-numerics"),
-            ]),
+            dependencies: []),
         .testTarget(
             name: "MotionTests",
             dependencies: ["Motion"]),

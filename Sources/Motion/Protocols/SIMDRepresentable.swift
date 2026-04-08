@@ -8,27 +8,44 @@
 import CoreGraphics
 import Foundation
 import simd
-import RealModule
 
 // MARK: - Supported Types
 
 /// A protocol that defines supported `SIMD` types that conform to `SIMDRepresentable` and `EquatableEnough`.
 public protocol SupportedSIMD: SIMD, SIMDRepresentable, EquatableEnough where Scalar: SupportedScalar {}
 
-/// A protocol that defines supported `SIMD` Scalar types that conform to `FloatingPointInitializable`, `EquatableEnough`, and are `RealModule.Real` numbers.
-public protocol SupportedScalar: SIMDScalar, FloatingPointInitializable, EquatableEnough, RealModule.Real, Decodable, Encodable {
+/// A protocol that defines supported `SIMD` Scalar types that conform to `FloatingPointInitializable` and `EquatableEnough`.
+public protocol SupportedScalar: SIMDScalar, FloatingPointInitializable, EquatableEnough, Decodable, Encodable {
 
-    // These only really exist because for some reason the Swift compiler can't infer that Float and Double methods for these exist.
     static func exp(_ x: Self) -> Self
     static func sin(_ x: Self) -> Self
     static func cos(_ x: Self) -> Self
     static func pow(_ x: Self, _ n: Int) -> Self
+    static func pow(_ x: Self, _ y: Self) -> Self
     static func log(_ x: Self) -> Self
+    static func sqrt(_ x: Self) -> Self
 
 }
 
-extension Float: SupportedScalar {}
-extension Double: SupportedScalar {}
+extension Float: SupportedScalar {
+    @inlinable public static func exp(_ x: Float) -> Float { Foundation.exp(x) }
+    @inlinable public static func sin(_ x: Float) -> Float { Foundation.sin(x) }
+    @inlinable public static func cos(_ x: Float) -> Float { Foundation.cos(x) }
+    @inlinable public static func pow(_ x: Float, _ n: Int) -> Float { Foundation.pow(x, Float(n)) }
+    @inlinable public static func pow(_ x: Float, _ y: Float) -> Float { Foundation.pow(x, y) }
+    @inlinable public static func log(_ x: Float) -> Float { Foundation.log(x) }
+    @inlinable public static func sqrt(_ x: Float) -> Float { Foundation.sqrt(x) }
+}
+
+extension Double: SupportedScalar {
+    @inlinable public static func exp(_ x: Double) -> Double { Foundation.exp(x) }
+    @inlinable public static func sin(_ x: Double) -> Double { Foundation.sin(x) }
+    @inlinable public static func cos(_ x: Double) -> Double { Foundation.cos(x) }
+    @inlinable public static func pow(_ x: Double, _ n: Int) -> Double { Foundation.pow(x, Double(n)) }
+    @inlinable public static func pow(_ x: Double, _ y: Double) -> Double { Foundation.pow(x, y) }
+    @inlinable public static func log(_ x: Double) -> Double { Foundation.log(x) }
+    @inlinable public static func sqrt(_ x: Double) -> Double { Foundation.sqrt(x) }
+}
 
 extension SIMD2: SupportedSIMD, Comparable, EquatableEnough where Scalar: SupportedScalar {}
 extension SIMD3: SupportedSIMD, Comparable, EquatableEnough where Scalar: SupportedScalar {}
